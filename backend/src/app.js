@@ -99,8 +99,8 @@ app.use(function(req, res, next) {
 
 app.use(bodyParser.json({limit: '100mb'}));
 app.use(bodyParser.urlencoded({
-  limit: '10mb',
-  extended: false // do not need to take care about images, videos -> false: only strings
+  limit: '100mb',
+  extended: true // do not need to take care about images, videos -> false: only strings
 }));
 
 app.use(cookieParser())
