@@ -4,21 +4,21 @@
         <q-toolbar class="bg-fixed-primary">
             <img src="pwndoc-logo-white.png" style="max-height:50px;" />
             
-            <q-item to='/audits' active-class="text-green">
+            <q-item to='/audits' active-class="text-red">
             <q-item-section avatar style="min-width:0" class="q-pr-sm">
                 <q-icon name="fa fa-fingerprint" />
             </q-item-section>
             <q-item-section>{{$t('nav.audits')}}</q-item-section>
             </q-item>
 
-            <q-item to='/vulnerabilities' active-class="text-green">
+            <q-item to='/vulnerabilities' active-class="text-red">
             <q-item-section avatar style="min-width:0" class="q-pr-sm">
                 <q-icon name="fa fa-shield-alt" />
             </q-item-section>
             <q-item-section>{{$t('nav.vulnerabilities')}}</q-item-section>
             </q-item>
 
-            <q-item to='/data' active-class="text-green">
+            <q-item to='/data' active-class="text-red">
             <q-item-section avatar style="min-width:0" class="q-pr-sm">
                 <q-icon name="fa fa-database" />
             </q-item-section>
@@ -27,7 +27,7 @@
 
             <q-space />
 
-              <q-item to='/settings' active-class="text-green">
+              <q-item to='/settings' active-class="text-red">
               <q-item-section avatar style="min-width:0" class="q-pr-sm">
                   <q-icon name="fa fa-cog" />
               </q-item-section>
