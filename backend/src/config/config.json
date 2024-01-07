@@ -7,7 +7,9 @@
             "server": "mongo-pwndoc-ng",
             "port": "27017"
         },
-        "apidoc": true
+        "apidoc": true,
+        "jwtSecret": "9beb09d1f13cc6a03c3a94b79b639ca5bf8682d14da055ea17193cfb13a10c1f",
+        "jwtRefreshSecret": "0426713ff0ea8cf9d019af914700c616162c1b1aa9e7fc78f52a54f09a5ef9cb"
     },
     "prod": {
         "port": 4242,

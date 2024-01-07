@@ -54,7 +54,7 @@ module.exports = function (ctx) {
       port: 8081,
       proxy: {
         '/api': {
-          target: 'https://pwndoc-ng-backend:5252',
+          target: 'https://localhost:4242',
           changeOrigin: true,
           secure: false
         }
