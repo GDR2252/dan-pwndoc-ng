@@ -62,7 +62,7 @@
                     </q-field>
                     <q-field class="col-12 basic-editor" borderless :label="$t('references')" stack-label>
                         <template v-slot="control">
-                            <basic-editor ref="basiceditor_references" v-on:editorchange="!readyToSave ? needSave=true : null" idUnique="basiceditor_references" noSync v-model="finding.references" :editable="true"/>
+                            <basic-editor-array dynRef="basiceditor_references" @editorchange="readyToSave = true" idUnique="basiceditor_references" v-model="finding.references" :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"/>
                         </template>
                     </q-field>
                     <!-- <textarea-array class="col-12" :label="$t('references')" v-model="finding.references" :readonly="frontEndAuditState !== AUDIT_VIEW_STATE.EDIT"/> -->

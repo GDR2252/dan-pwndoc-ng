@@ -5,6 +5,7 @@ import Breadcrumb from 'components/breadcrumb';
 import CvssCalculator from 'components/cvsscalculator'
 import TextareaArray from 'components/textarea-array'
 import CustomFields from 'components/custom-fields'
+import BasicEditorArray from 'components/basiceditor-array'
 
 import AuditService from '@/services/audit';
 import DataService from '@/services/data';
@@ -38,7 +39,8 @@ export default {
         Breadcrumb,
         CvssCalculator,
         TextareaArray,
-        CustomFields
+        CustomFields,
+        BasicEditorArray
     },
 
     mounted: function() {
