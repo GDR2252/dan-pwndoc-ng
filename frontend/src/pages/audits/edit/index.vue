@@ -29,10 +29,18 @@
 						</q-item-section>
 						</template>
 						<q-item-section side class="topButtonSection">
-							<q-btn flat color="info" @click="generateReport">
+							<!-- <q-btn flat color="info" @click="generateReport">
 								<q-tooltip anchor="bottom middle" self="center left" :delay="500" content-class="text-bold">{{$t('tooltip.downloadReport')}}</q-tooltip> 
 								<i class="fa fa-download fa-lg"></i>
-							</q-btn>
+							</q-btn> -->
+							<select @change="generateReport" :label="$t('Select type')" class="download-report-opt">
+								<option value="">Select type</option>
+								<option value="pdf">PDF</option>
+								<option value="docx">docx</option>
+								<option value="xlsx">xlsx</option>
+								<q-tooltip anchor="bottom middle" self="center left" :delay="500" content-class="text-bold">{{$t('tooltip.downloadReport')}}</q-tooltip> 
+							</select>
+        <q-space />
 						</q-item-section>
 					</q-item>
 
@@ -531,50 +539,52 @@ export default {
 				})
 			},
 
-			generateReport: function() {
-				const downloadNotif = Notify.create({
-					spinner: QSpinnerGears,
-					message: 'Generating the Report',
-					color: "blue",
-					timeout: 0,
-					group: false
-				})
-				AuditService.generateAuditReport(this.auditId)
-				.then(response => {
-					var blob = new Blob([response.data], {type: "application/octet-stream"});
-					var link = document.createElement('a');
-					link.href = window.URL.createObjectURL(blob);
-					link.download = decodeURIComponent(response.headers['content-disposition'].split('"')[1]);
-					document.body.appendChild(link);
-					link.click();
-					link.remove();
-					
-					downloadNotif({
-						icon: 'done',
-						spinner: false,
-						message: 'Report successfully generated',
-						color: 'green',
-						timeout: 2500
-					})
-				})
-				.catch( async err => {
-					var message = "Error generating template"
-					if (err.response && err.response.data) {
-						var blob = new Blob([err.response.data], {type: "application/json"})
-						var blobData = await this.BlobReader(blob)
-						message = JSON.parse(blobData).datas
-					}
-					downloadNotif()
-					Notify.create({
-						message: message,
-						type: 'negative',
-						textColor:'white',
-						position: 'top',
-						closeBtn: true,
+			generateReport: function(e) {
+				if(event.target.value == 'docx'){
+					const downloadNotif = Notify.create({
+						spinner: QSpinnerGears,
+						message: 'Generating the Report',
+						color: "blue",
 						timeout: 0,
-						classes: "text-pre-wrap"
+						group: false
 					})
-				})
+					AuditService.generateAuditReport(this.auditId)
+					.then(response => {
+						var blob = new Blob([response.data], {type: "application/octet-stream"});
+						var link = document.createElement('a');
+						link.href = window.URL.createObjectURL(blob);
+						link.download = decodeURIComponent(response.headers['content-disposition'].split('"')[1]);
+						document.body.appendChild(link);
+						link.click();
+						link.remove();
+						
+						downloadNotif({
+							icon: 'done',
+							spinner: false,
+							message: 'Report successfully generated',
+							color: 'green',
+							timeout: 2500
+						})
+					})
+					.catch( async err => {
+						var message = "Error generating template"
+						if (err.response && err.response.data) {
+							var blob = new Blob([err.response.data], {type: "application/json"})
+							var blobData = await this.BlobReader(blob)
+							message = JSON.parse(blobData).datas
+						}
+						downloadNotif()
+						Notify.create({
+							message: message,
+							type: 'negative',
+							textColor:'white',
+							position: 'top',
+							closeBtn: true,
+							timeout: 0,
+							classes: "text-pre-wrap"
+						})
+					})
+				}
 			},
 
 			updateSortFindings: function() {
@@ -729,5 +739,13 @@ export default {
 .topButtonSection {
     padding-left: 0px!important;
 	padding-right: 0px!important;
+}
+.download-report-opt{
+	margin-top: 10px;
+	margin-right: 10px;
+	width: 122px;
+	border:1px solid #eeeeee;
+	border-radius:5px;
+	padding:6px
 }
 </style>
