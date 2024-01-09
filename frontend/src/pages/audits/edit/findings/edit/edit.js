@@ -30,7 +30,8 @@ export default {
             vulnTypes: [],
             readyToSave:false,
             needSave:false,
-            AUDIT_VIEW_STATE: Utils.AUDIT_VIEW_STATE
+            AUDIT_VIEW_STATE: Utils.AUDIT_VIEW_STATE,
+            statuses:["Fixed", "Open", "Partially Fixed"]
         }
     },
 

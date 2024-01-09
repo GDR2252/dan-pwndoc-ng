@@ -30,7 +30,8 @@ var Finding = {
     scope:                  String,
     status:                 {type: Number, enum: [0,1], default: 1}, // 0: done, 1: redacting
     category:               String,
-    customFields:           [customField]
+    customFields:           [customField],
+    conditionStatus:         String
 }
 
 var Service = {

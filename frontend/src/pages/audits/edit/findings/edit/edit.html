@@ -29,7 +29,23 @@
         <q-separator vertical />
         <q-toggle :label="$t('completed')" v-model="finding.status" :true-value=0 :false-value=1 checked-icon="check" unchecked-icon="clear" color="green" />
         </template>
+        <!-- <q-separator vertical /> -->
+
+        <q-select 
+                    class="statuses-dropdown col-2"
+                    :label="$t('Status')"
+                    v-model="finding.conditionStatus" 
+                    :options="statuses" 
+                    option-value="name" 
+                    option-label="name" 
+                    emit-value 
+                    map-options
+                    options-sanitize
+                    active-bg-color="grey-3"
+                    outlined
+                    />
         <q-space />
+        
     </q-tabs>
 
     <q-tab-panels v-model="selectedTab" animated class="bg-transparent col-md-8 col-12 offset-md-2 q-mt-md" @before-transition="syncEditors" @transition="updateOrig" >
