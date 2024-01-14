@@ -415,8 +415,42 @@ module.exports = function(app, io) {
             if (!audit.template)
                 throw ({fn: 'BadParameters', message: 'Template not defined'})
 
-            var reportDoc = await reportGenerator.generateDoc(audit);
-            Response.SendFile(res, `${audit.name.replace(/[\\\/:*?"<>|]/g, "")}.${audit.template.ext || 'docx'}`, reportDoc);
+            console.log('type paramsss',req.query.fileType);
+            if(req.query.fileType == "pdf"){
+                // var reportPdf = await reportGenerator.generatePDF(audit);
+                // Response.SendFile(res, `${audit.name.replace(/[\\\/:*?"<>|]/g, "")}.${'pdf'}`, reportPdf);
+            }else if(req.query.fileType == "xlsx") {
+                
+            }else {
+                var reportDoc = await reportGenerator.generateDoc(audit);
+                Response.SendFile(res, `${audit.name.replace(/[\\\/:*?"<>|]/g, "")}.${audit.template.ext || 'docx'}`, reportDoc);
+            }
+        })
+        .catch(err => {
+            if (err.code === "ENOENT")
+                Response.BadParameters(res, 'Template File not found')
+            else
+                Response.Internal(res, err)
+        });
+    });
+
+    // Generate Report for specific audit
+    app.get("/api/audits/:auditId/generate-pdf", acl.hasPermission('audits:read'), function(req, res){
+        // #swagger.tags = ['Audit']
+
+        Audit.getAudit(acl.isAllowed(req.decodedToken.role, 'audits:read-all'), req.params.auditId, req.decodedToken.id)
+        .then(audit => {
+            // var settings = await Settings.getAll();
+
+            // if (settings.reviews.enabled && settings.reviews.public.mandatoryReview && audit.state !== 'APPROVED') {
+            //     Response.Forbidden(res, "Audit was not approved therefore cannot be exported.");
+            //     return;
+            // }
+
+            
+                var reportPdf =  reportGenerator.generatePDF(audit);
+                Response.SendFile(res, `${audit.name.replace(/[\\\/:*?"<>|]/g, "")}.${'pdf'}`, reportPdf);
+           
         })
         .catch(err => {
             if (err.code === "ENOENT")

@@ -540,7 +540,7 @@ export default {
 			},
 
 			generateReport: function(e) {
-				if(event.target.value == 'docx'){
+				if(e.target.value == 'docx' || e.target.value == 'pdf'){
 					const downloadNotif = Notify.create({
 						spinner: QSpinnerGears,
 						message: 'Generating the Report',
@@ -548,7 +548,7 @@ export default {
 						timeout: 0,
 						group: false
 					})
-					AuditService.generateAuditReport(this.auditId)
+					AuditService.generateAuditReport(this.auditId,{fileType:e.target.value})
 					.then(response => {
 						var blob = new Blob([response.data], {type: "application/octet-stream"});
 						var link = document.createElement('a');

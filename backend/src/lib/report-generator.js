@@ -12,6 +12,15 @@ var Image = require('mongoose').model('Image');
 var Settings = require('mongoose').model('Settings');
 var CVSS31 = require('./cvsscalc31.js');
 var translate = require('../translate')
+
+const pdfkit = require('pdfkit');
+const ExcelJS = require('exceljs');
+const htmlToPdf = require('html-to-pdf');
+const mammoth = require('mammoth');
+const { extractRawText,convertToHtml } = require('mammoth');
+const puppeteer = require('pdf-puppeteer');
+const docxConverter = require('docx-pdf');
+
 var $t
 
 // Generate document with docxtemplater
@@ -102,10 +111,106 @@ async function generateDoc(audit) {
         }
     }
     var buf = doc.getZip().generate({type:"nodebuffer"});
-
     return buf;
 }
 exports.generateDoc = generateDoc;
+
+
+ function generatePDF(audit) {
+    var pdfBuffer = '';
+    const buf =  generateDoc(audit).then(buf => {
+        console.log("promise bifff => ",buf);
+    //     var docxFilePath = `${__basedir}/../report-templates/${"audit-template"}.docx`
+    //     const pdfFilePath = `${__basedir}/../report-templates/${"audittemplate"}.pdf`
+    //     fs.open(docxFilePath, 'w+', function (err, fd1) {
+    //         fs.write(fd1, buf, 0, 11, 109, function (err, bytesWrite, buf) {
+    //             })
+    //     })
+    //      docxFilePath = `${__basedir}/../report-templates/${"demo-temp"}.docx`
+    
+    // docxConverter(docxFilePath,pdfFilePath, (err, result) => {
+    //   if (err) console.log("erron conversion",err);
+    //   else console.log("result",result); // writes to file for us
+    // });
+     generateHTMLFromDocx(buf).then(data => {
+       console.log("htmmmmmmmmml",data);
+
+    //      pdfBuffer = puppeteer({
+    //        content: data,
+    //        format: 'A4',
+    //        printBackground: true,
+    //    });
+    //    console.log("htmmmmmmmmml",pdfBuffer);
+    
+    }).catch(err => {
+        console.log("errorrrrrr",err);
+    });
+    
+    const result1 = generatePdfViaFile(buf);
+    })
+console.log('------------------------aaaaaaaaaaa--------------------------',buf);
+    // const [htmlContent] = await Promise.all([htmlContentP]);
+    // console.log("reult",htmlContent);
+    //  // Generate PDF
+
+     const pdfOptions = {
+         format: 'A4',
+         orientation: 'portrait',
+         border: '10mm',
+     };
+    //  const pdfBuffer = htmlToPdf.convertHTMLFile({ content: htmlContent }, pdfOptions);
+    // console.log("buffer" , pdfBuffer);
+
+     return pdfBuffer;
+  }
+
+exports.generatePDF = generatePDF;
+ function generatePdfViaFile(buffer){
+    const pdfFilePath = `${__basedir}/../report-templates/${"audit.template.name"}.pdf`
+    // Convert DOCX to HTML using mammoth
+    var htmlContent = '';
+ mammoth.extractRawText({ buffer: buffer })
+.then(result => {
+    console.log("htmlContent", result);
+//    htmlContent = result.value;
+  // Write HTML content to a temporary file
+//   const tempHtmlFilePath = 'temp.html';
+//   fs.writeFileSync(tempHtmlFilePath, htmlContent);
+
+//   // Convert HTML to PDF using pandoc
+//   const pandocCommand = `pandoc ${tempHtmlFilePath} -o ${pdfFilePath}`;
+//   exec(pandocCommand, (error, stdout, stderr) => {
+//     if (error) {
+//       console.error(`Error converting DOCX to PDF: ${stderr}`);
+//     } else {
+//       console.log(`Conversion successful. PDF saved to ${pdfFilePath}`);
+//     }
+
+//     // Cleanup: Delete temporary HTML file
+//     fs.unlinkSync(tempHtmlFilePath);
+//   });
+})
+.catch((error) => {
+  console.error(`Error extracting raw text from DOCX: ${error}`);
+});
+}
+ function generateHTMLFromDocx(docxBuffer) {
+    const mammothResult = convertToHtml({ buffer: docxBuffer });
+
+    // const mammothResult = Promise.all([mammothResultP]);
+    // console.log("outhtmllls",mammothResult);
+    // const htmlContent = `<html><head></head><body>${mammothResult.value}</body></html>`;
+    return mammothResult;
+}
+  async function generateXLSX(audit) {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Sheet 1');
+  
+    // XLSX content
+    worksheet.getCell('A1').value = 'Hello, this is an XLSX file generated using exceljs.';
+  
+    await workbook.xlsx.writeFile('output.xlsx');
+  }
 
 // *** Angular parser filters ***
 
