@@ -107,7 +107,7 @@
               :readonly="frontEndAuditState !== AUDIT_VIEW_STATE.EDIT"
             />
             <q-field
-              class="col-md-12 basic-editor"
+              class="basic-editor"
               borderless
               :label="$t('description')"
               stack-label
@@ -115,25 +115,23 @@
               <template v-slot="control">
                 <basic-editor
                   ref="basiceditor_description"
-                  v-on:editorchange="readyToSave ? needSave=true : null"
-                  v-on:ready="readyToSave=true"
+                  @editorchange="readyToSave=true"
                   idUnique="basiceditor_description"
-                  noSync
                   v-model="finding.description"
                   :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"
                 />
               </template>
             </q-field>
             <q-field
-              class="col-md-12 basic-editor"
+              class="basic-editor"
               borderless
               :label="$t('observation')"
               stack-label
             >
               <template v-slot="control">
-                <basic-editor
-                  ref="basiceditor_observation"
-                  v-on:editorchange="readyToSave ? needSave=true : null"
+                <basic-editor-array
+                  dynRef="basiceditor_observation"
+                  @editorchange="readyToSave=true"
                   idUnique="basiceditor_observation"
                   v-model="finding.observation"
                   :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"

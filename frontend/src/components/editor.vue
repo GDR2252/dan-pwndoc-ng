@@ -237,20 +237,23 @@
             :class="{ 'is-active': editor.isActive('link') }"
             @click="setLink"
           >
-            <q-tooltip :delay="500" content-class="text-bold">set a link</q-tooltip>
+            <q-tooltip :delay="500" content-class="text-bold"
+              >set a link</q-tooltip
+            >
             <q-icon name="mdi-link" />
           </q-btn>
-      <q-btn
+          <q-btn
             flat
             size="sm"
             dense
             @click="editor.chain().focus().unsetLink().run()"
-            :disabled="!editor.isActive('link') "
+            :disabled="!editor.isActive('link')"
           >
-            <q-tooltip :delay="500" content-class="text-bold">unset a link</q-tooltip>
+            <q-tooltip :delay="500" content-class="text-bold"
+              >unset a link</q-tooltip
+            >
             <q-icon name="mdi-link-off" />
           </q-btn>
-
 
           <!-- Strike button end -->
         </div>
@@ -297,27 +300,35 @@
         />
 
         <div v-if="toolbar.indexOf('code') !== -1">
-          <q-btn flat size="sm" dense
-                 :class="{ 'is-active': editor.isActive('code') }"
-                 @click="editor.chain().focus().toggleCode().run()"
+          <q-btn
+            flat
+            size="sm"
+            dense
+            :class="{ 'is-active': editor.isActive('code') }"
+            @click="editor.chain().focus().toggleCode().run()"
           >
             <q-tooltip :delay="500" content-class="text-bold">Code</q-tooltip>
             <q-icon name="code" />
           </q-btn>
 
-          <q-btn flat size="sm" dense
-                 :class="{ 'is-active': editor.isActive('codeBlock') }"
-                 @click="editor.chain().focus().toggleCodeBlock().run()"
+          <q-btn
+            flat
+            size="sm"
+            dense
+            :class="{ 'is-active': editor.isActive('codeBlock') }"
+            @click="editor.chain().focus().toggleCodeBlock().run()"
           >
-            <q-tooltip :delay="500" content-class="text-bold">Code Block</q-tooltip>
+            <q-tooltip :delay="500" content-class="text-bold"
+              >Code Block</q-tooltip
+            >
             <q-icon name="mdi-console" />
           </q-btn>
         </div>
 
         <q-separator
-            vertical
-            class="q-mx-sm"
-            v-if="toolbar.indexOf('table') !== -1"
+          vertical
+          class="q-mx-sm"
+          v-if="toolbar.indexOf('table') !== -1"
         />
 
         <div v-if="toolbar.indexOf('table') !== -1">
@@ -327,7 +338,11 @@
             size="sm"
             dense
             @click="
-              editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
+              editor
+                .chain()
+                .focus()
+                .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+                .run()
             "
           >
             <q-tooltip :delay="500" content-class="text-bold"
@@ -336,65 +351,62 @@
             <q-icon name="mdi-table" />
           </q-btn>
           <q-btn
-              flat
-              size="sm"
-              dense
-              @click="
-              editor.chain().focus().addColumnAfter().run()
-            "
+            flat
+            size="sm"
+            dense
+            @click="editor.chain().focus().addColumnAfter().run()"
           >
             <q-tooltip :delay="500" content-class="text-bold"
-            >Add column</q-tooltip
+              >Add column</q-tooltip
             >
             <q-icon name="mdi-table-column-plus-after" />
           </q-btn>
           <q-btn
-              flat
-              size="sm"
-              dense
-              @click="
-              editor.chain().focus().addRowAfter().run()
-            "
+            flat
+            size="sm"
+            dense
+            @click="editor.chain().focus().addRowAfter().run()"
           >
             <q-tooltip :delay="500" content-class="text-bold"
-            >Add row</q-tooltip
+              >Add row</q-tooltip
             >
             <q-icon name="mdi-table-row-plus-after" />
           </q-btn>
           <q-btn
-              flat
-              size="sm"
-              dense
-              @click="
-              editor.chain().focus().mergeCells().run()
-            "
+            flat
+            size="sm"
+            dense
+            @click="editor.chain().focus().mergeCells().run()"
           >
             <q-tooltip :delay="500" content-class="text-bold"
-            >Merge cells</q-tooltip
+              >Merge cells</q-tooltip
             >
             <q-icon name="mdi-call-merge" />
           </q-btn>
 
           <q-btn
-              flat
-              size="sm"
-              dense
-              @click="editor.chain().focus().deleteRow().run()" :disabled="!editor.can().deleteRow()"
+            flat
+            size="sm"
+            dense
+            @click="editor.chain().focus().deleteRow().run()"
+            :disabled="!editor.can().deleteRow()"
           >
             <q-tooltip :delay="500" content-class="text-bold"
-            >Delete Table Row</q-tooltip
+              >Delete Table Row</q-tooltip
             >
             <q-icon name="mdi-table-row-remove" />
           </q-btn>
 
           <q-btn
-              flat
-              size="sm"
-              dense
-              @click="editor.chain().focus().deleteColumn().run()" :disabled="!editor.can().deleteColumn()"
+            flat
+            size="sm"
+            dense
+            @click="editor.chain().focus().deleteColumn().run()"
+            :disabled="!editor.can().deleteColumn()"
           >
             <q-tooltip :delay="500" content-class="text-bold"
-            >Delete Table Column</q-tooltip>
+              >Delete Table Column</q-tooltip
+            >
             <q-icon name="mdi-table-column-remove" />
           </q-btn>
 
@@ -407,7 +419,7 @@
           >
             <q-icon name="delete" />
             <q-tooltip :delay="500" content-class="text-bold"
-            >Delete table</q-tooltip
+              >Delete table</q-tooltip
             >
           </q-btn>
           <!-- Add Table end -->
@@ -509,29 +521,45 @@
       </q-toolbar>
     </affix>
     <q-separator />
-     <bubble-menu
+    <bubble-menu
       class="editor-bubble-menu"
       :editor="editor"
       :tippy-options="{ duration: 100 }"
       v-if="editor"
     >
-      <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+      <button
+        @click="editor.chain().focus().toggleBold().run()"
+        :class="{ 'is-active': editor.isActive('bold') }"
+      >
         <q-icon name="format_bold" />
       </button>
-      <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+      <button
+        @click="editor.chain().focus().toggleItalic().run()"
+        :class="{ 'is-active': editor.isActive('italic') }"
+      >
         <q-icon name="format_italic" />
       </button>
-      <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+      <button
+        @click="editor.chain().focus().toggleStrike().run()"
+        :class="{ 'is-active': editor.isActive('strike') }"
+      >
         <q-icon name="format_strikethrough" />
       </button>
-      <button :class="{ 'is-active': editor.isActive('code') }"   @click="editor.chain().focus().toggleCode().run()" >
+      <button
+        :class="{ 'is-active': editor.isActive('code') }"
+        @click="editor.chain().focus().toggleCode().run()"
+      >
         <q-icon name="code" />
       </button>
-      <button   @click="editor.isActive('link') ? editor.chain().focus().unsetLink().run() : setLink()" >
-        <q-icon :name="editor.isActive('link') ? 'mdi-link-off' : 'mdi-link' " />
+      <button
+        @click="
+          editor.isActive('link')
+            ? editor.chain().focus().unsetLink().run()
+            : setLink()
+        "
+      >
+        <q-icon :name="editor.isActive('link') ? 'mdi-link-off' : 'mdi-link'" />
       </button>
-
-
     </bubble-menu>
     <editor-content
       v-if="typeof diff === 'undefined' || !toggleDiff"
@@ -558,13 +586,12 @@ import Link from "@tiptap/extension-link";
 import CustomImage from "./editor-image";
 //import Caption from "./editor-caption";
 import { Figure } from "./figure";
-import {v4 as uuidv4} from 'uuid';
-import UserService from '@/services/user';
-import Collaboration from '@tiptap/extension-collaboration'
-import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
-import { HocuspocusProvider } from '@hocuspocus/provider'
-import * as Y from 'yjs'
-
+import { v4 as uuidv4 } from "uuid";
+import UserService from "@/services/user";
+import Collaboration from "@tiptap/extension-collaboration";
+import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
+import { HocuspocusProvider } from "@hocuspocus/provider";
+import * as Y from "yjs";
 
 const Diff = require("diff");
 //  Internal libs
@@ -585,7 +612,7 @@ export default {
     },
     idUnique: {
       type: String,
-      default: '',
+      default: "",
     },
     toolbar: {
       type: Array,
@@ -606,11 +633,10 @@ export default {
       type: Boolean,
       default: false,
     },
-
   },
   components: {
     EditorContent,
-    BubbleMenu
+    BubbleMenu,
   },
   data() {
     return {
@@ -619,133 +645,146 @@ export default {
       html: "",
       toggleDiff: true,
       affixRelativeElement: "affix-relative-element",
-      status: 'connecting',
-      state:false,
-      fullId:"",
-      countChange:0,
-      countChangeAfterUpdate:-1,
-      initialeDataUpdated:false,
+      status: "connecting",
+      state: false,
+      fullId: "",
+      countChange: 0,
+      countChangeAfterUpdate: -1,
+      initialeDataUpdated: false,
       htmlEncode: Utils.htmlEncode,
     };
   },
 
   watch: {
     async value(value) {
-      await this.updateInitialeValue(value)
+      await this.updateInitialeValue(value);
     },
     editable(value) {
       //this.editor.setOptions({ editable: this.editable });
-      this.editor.setEditable(this.editable && this.initialeDataUpdated);
+      // this.editor.setEditable(this.editable && this. initialeDataUpdated);
     },
   },
 
   mounted() {
-     
-     const ydoc = new Y.Doc()
-     if(this.idUnique == '') {
-      this.ClassEditor = uuidv4()
-     } else {
-      this.ClassEditor = this.idUnique
-     }
-     this.username = UserService.user.username
-     if (typeof this.$route.params.findingId == 'undefined'){
-        this.fullId=this.ClassEditor
-     } else {
-        this.fullId= this.$route.params.auditId+'-'+this.$route.params.findingId+'-'+this.ClassEditor
-     }
+    const ydoc = new Y.Doc();
+    if (this.idUnique == "") {
+      this.ClassEditor = uuidv4();
+    } else {
+      this.ClassEditor = this.idUnique;
+    }
+    this.username = UserService.user.username;
+    if (typeof this.$route.params.findingId == "undefined") {
+      this.fullId = this.ClassEditor;
+    } else {
+      this.fullId =
+        this.$route.params.auditId +
+        "-" +
+        this.$route.params.findingId +
+        "-" +
+        this.ClassEditor;
+    }
 
     let extensionEditor = [
-        StarterKit,
-        Highlight.configure({
-          multicolor: true,
-        }),
-        Link.configure({
-          protocols: ['ftp', 'mailto'],
-             linkOnPaste: false,
-              openOnClick: false,
-        }),
-        Underline,
-        TableRow,
-        TableHeader,
-        TableCell,
-        Table.configure({
-          resizable: true,
-        }),
-        CustomImage.configure({
-          HTMLAttributes: {
-            class: "custom-image",
-          },
-          allowBase64: true
-        }),
-        Figure,
-      ]
+      StarterKit,
+      Highlight.configure({
+        multicolor: true,
+      }),
+      Link.configure({
+        protocols: ["ftp", "mailto"],
+        linkOnPaste: false,
+        openOnClick: false,
+      }),
+      Underline,
+      TableRow,
+      TableHeader,
+      TableCell,
+      Table.configure({
+        resizable: true,
+      }),
+      CustomImage.configure({
+        HTMLAttributes: {
+          class: "custom-image",
+        },
+        allowBase64: true,
+      }),
+      Figure,
+    ];
 
-     if(this.collab){
-       this.provider = new HocuspocusProvider({
-        url: `wss://${window.location.hostname}${window.location.port != '' ? ':'+window.location.port : ''}/collab/`,
-        name: this.$route.params.auditId ||  this.idUnique.replace('-', '/'),
-        document  : ydoc
-      })
+    if (this.collab) {
+      this.provider = new HocuspocusProvider({
+        url: `wss://${window.location.hostname}${
+          window.location.port != "" ? ":" + window.location.port : ""
+        }/collab/`,
+        name: this.$route.params.auditId || this.idUnique.replace("-", "/"),
+        document: ydoc,
+      });
 
-      this.provider.on('status', event => {
-        this.status = event.status
-      })
-      this.provider.on('synced', state => {
-        this.state=state.state
-      })
-      extensionEditor.push(Collaboration.configure({
+      this.provider.on("status", (event) => {
+        this.status = event.status;
+      });
+      this.provider.on("synced", (state) => {
+        this.state = state.state;
+      });
+      extensionEditor.push(
+        Collaboration.configure({
           document: ydoc,
-          field: this.fullId
-      }))
-      extensionEditor.push(CollaborationCursor.configure({
+          field: this.fullId,
+        })
+      );
+      extensionEditor.push(
+        CollaborationCursor.configure({
           provider: this.provider,
           user: {
-            name:  this.username,
-            color:  this.stringToColour(this.username)
-          }
-      }))
-
+            name: this.username,
+            color: this.stringToColour(this.username),
+          },
+        })
+      );
     } else {
-      this.state=true
-      this.status = 'connected'
-
+      this.state = true;
+      this.status = "connected";
     }
 
     this.editor = new Editor({
-      editable: false,
-      extensions: extensionEditor ,
+      editable: true, 
+      extensions: extensionEditor,
       onUpdate: () => {
         console.log("onUpdate");
-        if(this.state && this.initialeDataUpdated && this.countChangeAfterUpdate>0 && this.countChangeAfterUpdate<this.countChange){
-           this.$emit('editorchange') // need save only if sync is done
+        if (
+          this.state &&
+          this.initialeDataUpdated &&
+          this.countChangeAfterUpdate > 0 &&
+          this.countChangeAfterUpdate < this.countChange
+        ) {
+          this.$emit("editorchange"); // need save only if sync is done
         } else {
-          this.countChange++
+          this.countChange++;
         }
-        
+
         if (this.noSync) return;
         this.updateHTML();
       },
       disableInputRules: true,
       disablePasteRules: true,
     });
-    this.affixRelativeElement += "-" +  this.ClassEditor;
+    this.affixRelativeElement += "-" + this.ClassEditor;
     //this.editor.setOptions({ editable: this.editable });
-    this.editor.setEditable(this.editable && this.initialeDataUpdated);
+    // this.editor.setEditable(this.editable && this.initialeDataUpdated);
     if (
       typeof this.value === "undefined" ||
       this.value === this.editor.getHTML()
     ) {
       return;
     }
-    this.updateInitialeValue(this.value)
+    this.updateInitialeValue(this.value);
   },
   async beforeDestroy() {
-    while(1){
-      if(this.state==1 && this.status=='connected') break;
-      else await this.sleep(100)
+    while (1) {
+      if (this.state == 1 && this.status == "connected") break;
+      else await this.sleep(100);
     }
-    if(this.collab){
-      this.provider.destroy()
+    if (this.collab) {
+      this.provider.destroy();
     }
     this.editor.destroy();
   },
@@ -807,64 +846,69 @@ export default {
     },
   },
 
- 
   methods: {
-    async updateInitialeValue(value){
-    if( typeof this.$route.params.auditId == 'undefined' && (this.idUnique.split('-')[0]=="undefined" || this.idUnique.split('-') == ""  )&& this.initialeDataUpdated==false){
-      // if editor is init not in vuln edit context like cutom field
-      this.editor.commands.setContent(value, false);
-      this.initialeDataUpdated=true
-      this.editor.setEditable(this.editable && this.initialeDataUpdated);
-      this.$emit('ready')
-      this.countChangeAfterUpdate=this.countChange
-    } else {
-      if(this.initialeDataUpdated==false){
-          for (let i = 0; i < 200; i++) { // 25 second to connect web socket failed after
-            if(this.status=='connected' && this.state){
-              if(this.editor.getHTML() != value && this.editor.getHTML()=='<p></p>'){
+    async updateInitialeValue(value) {
+      if (
+        typeof this.$route.params.auditId == "undefined" &&
+        (this.idUnique.split("-")[0] == "undefined" ||
+          this.idUnique.split("-") == "") &&
+        this.initialeDataUpdated == false
+      ) {
+        // if editor is init not in vuln edit context like cutom field
+        this.editor.commands.setContent(value, false);
+        this.initialeDataUpdated = true;
+        this.editor.setEditable(this.editable && this.initialeDataUpdated);
+        this.$emit("ready");
+        this.countChangeAfterUpdate = this.countChange;
+      } else {
+        if (this.initialeDataUpdated == false) {
+          for (let i = 0; i < 200; i++) {
+            // 25 second to connect web socket failed after
+            if (this.status == "connected" && this.state) {
+              if (
+                this.editor.getHTML() != value &&
+                this.editor.getHTML() == "<p></p>"
+              ) {
                 this.editor.commands.setContent(value, false);
               }
-              this.initialeDataUpdated=true
-              this.editor.setEditable(this.editable && this.initialeDataUpdated);
-              this.$emit('ready')
-              this.countChangeAfterUpdate=this.countChange
+              this.initialeDataUpdated = true;
+              this.editor.setEditable(
+                this.editable && this.initialeDataUpdated
+              );
+              this.$emit("ready");
+              this.countChangeAfterUpdate = this.countChange;
               break;
             } else {
-              await this.sleep(500)
-              console.log('Wait websocket')
+              await this.sleep(500);
+              console.log("Wait websocket");
             }
           }
         }
-      } 
+      }
     },
-    setLink(){
-      const previousUrl = this.editor.getAttributes('link').href
-      const url = window.prompt('URL', previousUrl)
+    setLink() {
+      const previousUrl = this.editor.getAttributes("link").href;
+      const url = window.prompt("URL", previousUrl);
 
       // cancelled
       if (url === null) {
-        return
+        return;
       }
 
       // empty
-      if (url === '') {
-        this.editor
-          .chain()
-          .focus()
-          .extendMarkRange('link')
-          .unsetLink()
-          .run()
+      if (url === "") {
+        this.editor.chain().focus().extendMarkRange("link").unsetLink().run();
 
-        return
+        return;
       }
 
       // update link
       this.editor
         .chain()
         .focus()
-        .extendMarkRange('link')
+        .extendMarkRange("link")
         .setLink({ href: url })
-        .run()
+        .run();
     },
     sleep(milliseconds) {
       return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -896,15 +940,15 @@ export default {
 
       fileReader.readAsDataURL(file);
     },
-     stringToColour : function (str) {
+    stringToColour: function (str) {
       var hash = 0;
       for (var i = 0; i < str.length; i++) {
         hash = str.charCodeAt(i) + ((hash << 5) - hash);
       }
-      var colour = '#';
+      var colour = "#";
       for (var i = 0; i < 3; i++) {
-        var value = (hash >> (i * 8)) & 0xFF;
-        colour += ('00' + value.toString(16)).substr(-2);
+        var value = (hash >> (i * 8)) & 0xff;
+        colour += ("00" + value.toString(16)).substr(-2);
       }
       return colour;
     },
@@ -927,21 +971,19 @@ export default {
 </script>
 
 <style lang="scss">
-
-
 .collaboration-cursor__caret {
   position: relative;
   margin-left: -1px;
   margin-right: -1px;
-  border-left: 1px solid #0D0D0D;
-  border-right: 1px solid #0D0D0D;
+  border-left: 1px solid #0d0d0d;
+  border-right: 1px solid #0d0d0d;
   word-break: normal;
   pointer-events: none;
 }
 
 .collaboration-cursor__label {
- text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
- color:white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  color: white;
   position: absolute;
   top: -1.4em;
   left: -1px;
@@ -955,8 +997,6 @@ export default {
   border-radius: 3px 3px 3px 0;
   white-space: nowrap;
 }
-
-
 
 .editor {
   :focus {
@@ -1148,16 +1188,16 @@ pre .diffadd {
   background-color: $green-6;
 }
 
-.editor-bubble-menu{
-   background: #333333;
-    color: white;
-    border-radius: 8px;
-    padding: 5px;
-    margin: -5px;
-    display: flex;
+.editor-bubble-menu {
+  background: #333333;
+  color: white;
+  border-radius: 8px;
+  padding: 5px;
+  margin: -5px;
+  display: flex;
 }
 
-.editor-bubble-menu > button > i{
+.editor-bubble-menu > button > i {
   border-radius: 5px;
   width: 24px;
   height: 24px;
@@ -1167,18 +1207,18 @@ pre .diffadd {
   color: #ffffff;
 }
 
-.editor-bubble-menu > button > i:hover{
-        background: #555555;
-        color: #ffffff;
-        cursor: pointer;
+.editor-bubble-menu > button > i:hover {
+  background: #555555;
+  color: #ffffff;
+  cursor: pointer;
 }
 .editor-bubble-menu > .is-active > i {
-        background: #555555;
-        color: #ffffff;
-        cursor: pointer;
+  background: #555555;
+  color: #ffffff;
+  cursor: pointer;
 }
 .editor-bubble-menu > button {
   background: bottom;
-    border: none;
+  border: none;
 }
 </style>
