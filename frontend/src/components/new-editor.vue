@@ -564,12 +564,13 @@ import Collaboration from '@tiptap/extension-collaboration'
 import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import { HocuspocusProvider } from '@hocuspocus/provider'
 import * as Y from 'yjs'
-
+import { TiptapCollabProvider } from "@hocuspocus/provider";
 
 const Diff = require("diff");
 //  Internal libs
 import Utils from "@/services/utils";
 import ImageService from "@/services/image";
+// import jsonwebtoken from 'jsonwebtoken'
 
 export default {
   name: "BasicEditor",
@@ -605,7 +606,7 @@ export default {
     noSync: {
       type: Boolean,
       default: false,
-    },
+    }
 
   },
   components: {
@@ -626,6 +627,8 @@ export default {
       countChangeAfterUpdate:-1,
       initialeDataUpdated:false,
       htmlEncode: Utils.htmlEncode,
+      auditId: "",
+      findingId : "",provider : null
     };
   },
 
@@ -640,10 +643,27 @@ export default {
   },
 
   mounted() {
+    this.auditId = this.$route.params.auditId;
+    this.findingId = this.$route.params.findingId;
+  // console.log("auditId",this.auditId);
+  // console.log("editor type",this.idUnique);
+  //   console.log("findingId", this.findingId);
+    const nama = this.idUnique + this.auditId + this.findingId;
+    console.log(nama);
+  
+      // this.provider = new TiptapCollabProvider({
+      //    appId: "xm411nm2",           
+      //     name: nama,
+      //     token: ""   });
 
     let extensionEditor = [
-        StarterKit,
-        Highlight.configure({
+    // Collaboration.configure({
+    //           document: this.provider.document,
+    //           field: "default",
+    //         }),
+            StarterKit.configure({
+              history: false,
+            }),        Highlight.configure({
           multicolor: true,
         }),
         Link.configure({
@@ -676,17 +696,31 @@ export default {
       },
       disableInputRules: true,
       disablePasteRules: true,
+          // onSelectionUpdate(props) {
+          //   const {
+          //     empty: selectionIsEmpty,
+          //     from: selectionFrom,
+          //     to: selectionTo,
+          //   } = props.editor.state.selection;
+          //   const selectionContainsText = props.editor.state.doc.textBetween(
+          //     selectionFrom,
+          //     selectionTo,
+          //     " "
+          //   );
+  
+          //   this.isDisabled = selectionIsEmpty || !selectionContainsText;
+          // }
     });
     this.affixRelativeElement += "-" +  this.ClassEditor;
     //this.editor.setOptions({ editable: this.editable });
     // this.editor.setEditable(this.editable && this.initialeDataUpdated);
-    if (
-      typeof this.value === "undefined" ||
-      this.value === this.editor.getHTML()
-    ) {
-      return;
-    }
-    this.updateInitialeValue(this.value)
+    // if (
+    //   typeof this.value === "undefined" ||
+    //   this.value === this.editor.getHTML()
+    // ) {
+    //   return;
+    // }
+    // this.updateInitialeValue(this.value)
   },
   
   computed: {
@@ -746,12 +780,14 @@ export default {
       return content;
     },
   },
-
+  beforeDestroy() {
+      this.editor && this.editor.destroy();
+      this.provider && this.provider.destroy();
+    },
  
   methods: {
     async updateInitialeValue(value){
       this.editor.commands.setContent(value, false);
-   
     },
     setLink(){
       const previousUrl = this.editor.getAttributes('link').href

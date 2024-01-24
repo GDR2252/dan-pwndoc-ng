@@ -113,13 +113,8 @@
               stack-label
             >
               <template v-slot="control">
-                <basic-editor
-                  ref="basiceditor_description"
-                  @editorchange="readyToSave=true"
-                  idUnique="basiceditor_description"
-                  v-model="finding.description"
-                  :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"
-                />
+                <basic-editor ref="basiceditor_description" v-on:editorchange="readyToSave ? needSave=true : null" v-on:ready="readyToSave=true" idUnique="basiceditor_description"  noSync v-model="finding.description" :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"/>
+
               </template>
             </q-field>
             <q-field
