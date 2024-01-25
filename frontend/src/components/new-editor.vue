@@ -651,16 +651,16 @@ export default {
     const nama = this.idUnique + this.auditId + this.findingId;
     console.log(nama);
   
-      // this.provider = new TiptapCollabProvider({
-      //    appId: "xm411nm2",           
-      //     name: nama,
-      //     token: ""   });
+      this.provider = new TiptapCollabProvider({
+         appId: "xm411nm2",           
+          name: nama,
+          token: ""   });
 
     let extensionEditor = [
-    // Collaboration.configure({
-    //           document: this.provider.document,
-    //           field: "default",
-    //         }),
+    Collaboration.configure({
+              document: this.provider.document,
+              field: "default",
+            }),
             StarterKit.configure({
               history: false,
             }),        Highlight.configure({
@@ -696,20 +696,21 @@ export default {
       },
       disableInputRules: true,
       disablePasteRules: true,
-          // onSelectionUpdate(props) {
-          //   const {
-          //     empty: selectionIsEmpty,
-          //     from: selectionFrom,
-          //     to: selectionTo,
-          //   } = props.editor.state.selection;
-          //   const selectionContainsText = props.editor.state.doc.textBetween(
-          //     selectionFrom,
-          //     selectionTo,
-          //     " "
-          //   );
+ 
+          onSelectionUpdate(props) {
+            const {
+              empty: selectionIsEmpty,
+              from: selectionFrom,
+              to: selectionTo,
+            } = props.editor.state.selection;
+            const selectionContainsText = props.editor.state.doc.textBetween(
+              selectionFrom,
+              selectionTo,
+              " "
+            );
   
-          //   this.isDisabled = selectionIsEmpty || !selectionContainsText;
-          // }
+            this.isDisabled = selectionIsEmpty || !selectionContainsText;
+          }
     });
     this.affixRelativeElement += "-" +  this.ClassEditor;
     //this.editor.setOptions({ editable: this.editable });

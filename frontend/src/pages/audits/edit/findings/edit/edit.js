@@ -32,7 +32,7 @@ export default {
       needSave: false,
       AUDIT_VIEW_STATE: Utils.AUDIT_VIEW_STATE,
       statuses: ["Fixed", "Open", "Partially Fixed"],
-    };
+          };
   },
 
   components: {
@@ -102,6 +102,14 @@ export default {
   },
 
   methods: {
+    logInputState() {
+      // console.log("desc",this.$refs.desc._data);
+      // console.log("desc",this.$refs.obs._data);
+      console.log("desc",this.finding.remediation);
+      // console.log("obs",this.finding.observation);
+      // console.log("refe",this.finding.references);
+
+    },
     _listener: function (e) {
       if (
         (window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) &&

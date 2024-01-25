@@ -23,7 +23,6 @@
       />
       <q-btn
         color="positive"
-        :disable="!readyToSave"
         :label="$t('btn.save')+'(ctrl+s)'"
         no-caps
         @click="updateFinding()"
@@ -113,7 +112,15 @@
               stack-label
             >
               <template v-slot="control">
-                <basic-editor ref="basiceditor_description" v-on:editorchange="readyToSave ? needSave=true : null" v-on:ready="readyToSave=true" idUnique="basiceditor_description"  noSync v-model="finding.description" :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"/>
+                <basic-editor ref="desc"
+                @editorchange="finding.description=$refs.desc._data.html"
+                idUnique="basiceditor_description"    :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"/>
+                <!-- <basic-editor-array
+                ref="desc"
+                @editorchange="finding.description=$refs.desc._data.dataString"
+                idUnique="basiceditor_description"
+                :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"
+              /> -->
 
               </template>
             </q-field>
@@ -124,13 +131,16 @@
               stack-label
             >
               <template v-slot="control">
-                <basic-editor-array
-                  dynRef="basiceditor_observation"
-                  @editorchange="readyToSave=true"
+                <!-- <basic-editor-array
+                  ref="obs"
+                  @editorchange="finding.observation=$refs.obs._data.dataString"
                   idUnique="basiceditor_observation"
-                  v-model="finding.observation"
                   :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"
-                />
+                /> -->
+                <basic-editor ref="obs"
+                @editorchange="finding.observation=$refs.obs._data.html"
+                idUnique="basiceditor_observation"    :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"/>
+              
               </template>
             </q-field>
             <q-field
@@ -140,13 +150,16 @@
               stack-label
             >
               <template v-slot="control">
-                <basic-editor-array
-                  dynRef="basiceditor_references"
-                  @editorchange="readyToSave = true"
-                  idUnique="basiceditor_references"
+                <!-- <basic-editor-array
                   v-model="finding.references"
+                  dynRef="basiceditor_references"
+                  idUnique="basiceditor_references"
                   :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"
-                />
+                /> -->
+                <basic-editor ref="refe"
+                @editorchange="finding.references=$refs.refe._data.html"
+                idUnique="basiceditor_references"    :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"/>
+            
               </template>
             </q-field>
             <!-- <textarea-array class="col-12" :label="$t('references')" v-model="finding.references" :readonly="frontEndAuditState !== AUDIT_VIEW_STATE.EDIT"/> -->
@@ -176,14 +189,14 @@
           <div class="col-12">
             <q-card>
               <q-card-section>
+
                 <basic-editor
-                  ref="basiceditor_poc"
-                  v-on:editorchange="readyToSave ? needSave=true : null"
+                  ref="proof"
+                  @editorchange="finding.poc=$refs.proof._data.html"
                   idUnique="basiceditor_poc"
-                  noSync
-                  v-model="finding.poc"
                   :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"
                 />
+
               </q-card-section>
             </q-card>
           </div>
@@ -197,11 +210,12 @@
             <q-field borderless>
               <template v-slot="control">
                 <basic-editor
-                  v-model="finding.scope"
+                  ref="sco"
                   idUnique="basiceditor_scope"
-                  v-on:editorchange="readyToSave ? needSave=true : null"
+                  @editorchange="finding.scope=$refs.sco._data.html"
                   :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"
                 />
+                <button @click="logInputState">Log Data from MongoDB</button>
               </template>
             </q-field>
           </q-card-section>
@@ -254,11 +268,9 @@
             >
               <template v-slot="control">
                 <basic-editor
-                  ref="basiceditor_remediation"
-                  v-on:editorchange="readyToSave ? needSave=true : null"
+                  ref="rem"
+                  @editorchange="finding.remediation=$refs.rem._data.html"
                   idUnique="basiceditor_remediation"
-                  noSync
-                  v-model="finding.remediation"
                   :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"
                 />
               </template>

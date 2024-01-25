@@ -592,6 +592,7 @@ import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
 import { HocuspocusProvider } from "@hocuspocus/provider";
 import * as Y from "yjs";
+import { TiptapCollabProvider } from "@hocuspocus/provider";
 
 const Diff = require("diff");
 //  Internal libs
@@ -666,7 +667,6 @@ export default {
   },
 
   mounted() {
-    const ydoc = new Y.Doc();
     if (this.idUnique == "") {
       this.ClassEditor = uuidv4();
     } else {
@@ -711,13 +711,18 @@ export default {
     ];
 
     if (this.collab) {
-      this.provider = new HocuspocusProvider({
-        url: `wss://${window.location.hostname}${
-          window.location.port != "" ? ":" + window.location.port : ""
-        }/collab/`,
+      this.provider = new TiptapCollabProvider({
+         appId: "xm411nm2",           
         name: this.$route.params.auditId || this.idUnique.replace("-", "/"),
-        document: ydoc,
-      });
+          token: ""   });
+
+      // this.provider = new HocuspocusProvider({
+      //   url: `wss://${window.location.hostname}${
+      //     window.location.port != "" ? ":" + window.location.port : ""
+      //   }/collab/`,
+      //   name: this.$route.params.auditId || this.idUnique.replace("-", "/"),
+      //   document: ydoc,
+      // });
 
       this.provider.on("status", (event) => {
         this.status = event.status;
@@ -727,7 +732,7 @@ export default {
       });
       extensionEditor.push(
         Collaboration.configure({
-          document: ydoc,
+          document: this.provider.document,
           field: this.fullId,
         })
       );
@@ -746,9 +751,11 @@ export default {
     }
 
     this.editor = new Editor({
-      editable: true, 
-      extensions: extensionEditor,
+      editable: true,         extensions: extensionEditor,
       onUpdate: () => {
+        this.updateHTML();
+        this.$emit('editorchange')
+
         console.log("onUpdate");
         if (
           this.state &&
