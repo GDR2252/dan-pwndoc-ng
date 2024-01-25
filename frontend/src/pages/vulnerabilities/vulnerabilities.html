@@ -374,14 +374,18 @@
         <q-card-section>
             <q-field borderless :label="$t('description')" stack-label class="basic-editor">
                 <template v-slot="control">
-                    <basic-editor :idUnique="currentVulnerability._id+'-description'"   noAffix v-model="currentVulnerability.details[currentDetailsIndex].description" />
+
+                    <basic-editor ref="vulndesc" :idUnique="currentVulnerability._id+'-description'"   noAffix @editorchange="currentVulnerability.details[currentDetailsIndex].description=$refs.vulndesc._data.html" />
+
                 </template>
             </q-field>
         </q-card-section>
         <q-card-section>
             <q-field borderless :label="$t('observation')" stack-label class="basic-editor">
                 <template v-slot="control">
-                    <basic-editor :idUnique="currentVulnerability._id+'-observation'"   noAffix v-model="currentVulnerability.details[currentDetailsIndex].observation" />
+                    <basic-editor ref="vulnobs" :idUnique="currentVulnerability._id+'-observation'"   noAffix @editorchange="currentVulnerability.details[currentDetailsIndex].observation=$refs.vulnobs._data.html" />
+                    <!-- <q-btn @click="logInputState">Log Data from MongoDB</q-btn> -->
+               
                 </template>
             </q-field>
         </q-card-section>
@@ -396,7 +400,7 @@
         <q-card-section>
             <q-field borderless :label="$t('remediation')" stack-label class="basic-editor">
                 <template v-slot="control">
-                    <basic-editor :idUnique="currentVulnerability._id+'-remediation'"   noAffix v-model="currentVulnerability.details[currentDetailsIndex].remediation" />
+                    <basic-editor ref="vulnrem" :idUnique="currentVulnerability._id+'-remediation'"   noAffix @editorchange="currentVulnerability.details[currentDetailsIndex].remediation=$refs.vulnrem._data.html" />
                 </template>
             </q-field>
         </q-card-section>
@@ -427,7 +431,13 @@
             </div>
         </q-card-section>
         <q-card-section>
-            <textarea-array :label="$t('references')" v-model="currentVulnerability.details[currentDetailsIndex].references" />
+            <q-field borderless :label="$t('references')" stack-label class="basic-editor">
+                <template v-slot="control">
+                    <basic-editor ref="vulnref" :idUnique="currentVulnerability._id+'-references'"   noAffix @editorchange="currentVulnerability.details[currentDetailsIndex].references=$refs.vulnref._data.html" />
+                </template>
+            </q-field>
+
+            <!-- <textarea-array :label="$t('references')" v-model="currentVulnerability.details[currentDetailsIndex].references" /> -->
         </q-card-section>
 
         <q-expansion-item 

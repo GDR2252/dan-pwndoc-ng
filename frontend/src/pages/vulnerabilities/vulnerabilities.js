@@ -131,6 +131,16 @@ export default {
 
     methods: {
         // Get available languages
+        // logInputState() {
+        //     // console.log("desc",this.$refs.desc._data);
+        //     // console.log("desc",this.$refs.obs._data);
+        //     console.log("desc",this.currentVulnerability.details[this.currentDetailsIndex].observation);
+        //     console.log("desc",this.currentVulnerability.details[this.currentDetailsIndex].remediation);
+        //     console.log("desc",this.currentVulnerability.details[this.currentDetailsIndex].references);
+        //     // console.log("obs",this.finding.observation);
+        //     // console.log("refe",this.finding.references);
+      
+        //   },
         getLanguages: function() {
             DataService.getLanguages()
             .then((data) => {
