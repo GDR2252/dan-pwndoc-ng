@@ -12,7 +12,7 @@
       :enabled="!noAffix"
       class="bg-white"
     >
-      <q-toolbar class="editor-toolbar">
+          <q-toolbar class="editor-toolbar">
         <div v-if="toolbar.indexOf('format') !== -1">
           <q-tooltip :delay="500" content-class="text-bold"
             >Text Format</q-tooltip
@@ -203,7 +203,7 @@
             <q-tooltip :delay="500" content-class="text-bold">Italic</q-tooltip>
             <q-icon name="format_italic" />
           </q-btn>
-          <!-- Italic button end -->
+                   <!-- Italic button end -->
           <!-- Underline button -->
           <q-btn
             flat
@@ -519,6 +519,81 @@
           />
         </div>
       </q-toolbar>
+      <div>
+        <q-btn
+              @click="() => editor?.chain().focus().aiSummarize({ stream: true }).run()"
+            >
+              Summarize
+            </q-btn>
+            <q-btn
+              @click="() => editor?.chain().focus().aiRephrase({ stream: true, modelName: 'gpt-4-1106-preview' }).run()"
+            >
+              Rephrase
+          </q-btn>
+            <q-btn
+              @click="() => editor?.chain().focus().aiShorten({ stream: true }).run()"
+            >
+              Shorten
+            </q-btn>
+            <q-btn
+              @click="() => editor?.chain().focus().aiExtend({ stream: true }).run()"
+            >
+              Extend
+            </q-btn>
+            <q-btn
+              @click="() => editor?.chain().focus().aiSummarize({ stream: true }).run()"
+            >
+              Summarize
+            </q-btn>
+
+            <q-btn
+              @click="() => editor?.chain().focus().aiSimplify({ stream: true }).run()"
+            >
+              Simplify
+            </q-btn>
+
+            <q-btn
+              @click="() => editor?.chain().focus().aiFixSpellingAndGrammar({ stream: streamMode }).run()"
+            >
+              Fix spelling
+            </q-btn>
+            <q-btn
+              @click="() => editor?.chain().focus().aiComplete({ append: true, stream: true }).run()"
+            >
+              Continue writing
+            </q-btn>
+
+            <q-btn
+              @click="() => editor?.chain().focus().aiAdjustTone('excited', { stream: true }).run()"
+            >
+              Use&nbsp;<i>excited</i>&nbsp;tone of voice
+            </q-btn>
+            <q-btn
+              @click="() => editor?.chain().focus().aiEmojify({ stream: true }).run()"
+            >
+              Enrich with 🙂
+            </q-btn>
+            <q-btn
+              @click="() => editor?.chain().focus().aiDeEmojify({ stream: true }).run()"
+            >
+              De-Emojify
+            </q-btn>
+            <q-btn
+              @click="() => editor?.chain().focus().aiTranslate('sv', { stream: true }).run()"
+            >
+              Translate to&nbsp;<i>Swedish</i>
+            </q-btn>
+            <q-btn
+              @click="() => editor?.chain().focus().aiTranslate('de', { stream: true }).run()"
+            >
+              Translate to&nbsp;<i>German</i>
+            </q-btn>
+            <q-btn
+              @click="() => editor?.chain().focus().aiTldr({ stream: true }).run()"
+            >
+              tl;dr
+            </q-btn>
+      </div>
     </affix>
     <q-separator />
     <bubble-menu
@@ -531,7 +606,7 @@
         @click="editor.chain().focus().toggleBold().run()"
         :class="{ 'is-active': editor.isActive('bold') }"
       >
-        <q-icon name="format_bold" />
+             <q-icon name="format_bold" />
       </button>
       <button
         @click="editor.chain().focus().toggleItalic().run()"
@@ -560,7 +635,7 @@
       >
         <q-icon :name="editor.isActive('link') ? 'mdi-link-off' : 'mdi-link'" />
       </button>
-    </bubble-menu>
+         </bubble-menu>
     <editor-content
       v-if="typeof diff === 'undefined' || !toggleDiff"
       class="editor__content q-pa-sm"
@@ -598,6 +673,7 @@ const Diff = require("diff");
 //  Internal libs
 import Utils from "@/services/utils";
 import ImageService from "@/services/image";
+import {Ai} from "@tiptap-pro/extension-ai";
 
 export default {
   name: "BasicEditor",
@@ -685,7 +761,23 @@ export default {
     }
 
     let extensionEditor = [
-      StarterKit,
+      StarterKit, Ai.configure({
+          appId: "pkrpx5m4",
+          token: "",
+          autocompletion: false,
+          onLoading: () => {
+            // isLoading.value = !streamMode.value
+            // errorMessage.value = ''
+          },
+          onSuccess: () => {
+            // isLoading.value = false
+          },
+          onError: error => {
+            // isLoading.value = false
+            // errorMessage.value = error.message
+          },
+
+        }),
       Highlight.configure({
         multicolor: true,
       }),
