@@ -13,24 +13,24 @@ services:
     networks:
       - backend
 
-  backend:
-    build: ./backend
-    image: pwndoc-ng/pwndoc-ng:backend
-    container_name: pwndoc-ng-backend
-    volumes:
-      - ./backend/report-templates:/app/report-templates
-      - ./backend/src/config:/app/src/config
-    depends_on:
-      - mongodb
-    environment:
-      - COLLAB_WEBSOCKET_PORT=8440
-    restart: always
-    ports:
-      - 4242:4242
-    links:
-      - mongodb
-    networks:
-      - backend
+  # backend:
+  #   build: ./backend
+  #   image: pwndoc-ng/pwndoc-ng:backend
+  #   container_name: pwndoc-ng-backend
+  #   volumes:
+  #     - ./backend/report-templates:/app/report-templates
+  #     - ./backend/src/config:/app/src/config
+  #   depends_on:
+  #     - mongodb
+  #   environment:
+  #     - COLLAB_WEBSOCKET_PORT=8440
+  #   restart: always
+  #   ports:
+  #     - 4242:4242
+  #   links:
+  #     - mongodb
+  #   networks:
+  #     - backend
 
 volumes:
   mongo-data:
