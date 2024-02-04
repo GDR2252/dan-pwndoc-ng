@@ -491,6 +491,10 @@ module.exports = function(app, io) {
         finding.remediationComplexity = req.body.remediationComplexity;
       if (req.body.priority) finding.priority = req.body.priority;
       if (req.body.observation) finding.observation = req.body.observation;
+      if (req.body.descriptionComments) {
+        finding.descriptionComments = req.body.descriptionComments;
+        console.log(finding.descriptionComments);
+    }
       if (req.body.description) finding.description = req.body.description;
       if (req.body.references) finding.references = req.body.references;
       if (req.body.cvssv3) finding.cvssv3 = req.body.cvssv3;

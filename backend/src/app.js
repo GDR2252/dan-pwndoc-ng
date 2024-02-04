@@ -49,73 +49,87 @@ require('./models/custom-section');
 require('./models/custom-field');
 require('./models/image');
 require('./models/settings');
+require("./models/comments");
 
 // Socket IO configuration
-io.on('connection', (socket) => {
-  socket.on('join', (data) => {
-    console.log(`user ${data.username} joined room ${data.room}`)
+io.on("connection", (socket) => {
+  socket.on("join", (data) => {
+    console.log(`user ${data.username} joined room ${data.room}`);
     socket.username = data.username;
-    do { socket.color = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6); } while (socket.color === "#77c84e")
+    do {
+      socket.color =
+        "#" + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
+    } while (socket.color === "#77c84e");
     socket.join(data.room);
-    io.to(data.room).emit('updateUsers');
+    io.to(data.room).emit("updateUsers");
   });
-  socket.on('leave', (data) => {
-    console.log(`user ${data.username} left room ${data.room}`)
-    socket.leave(data.room)
-    io.to(data.room).emit('updateUsers');
-  })
-  socket.on('updateUsers', (data) => {
-    var userList = [...new Set(utils.getSockets(io, data.room).map(s => {
-      var user = {};
-      user.username = s.username;
-      user.color = s.color;
-      user.menu = s.menu;
-      if (s.finding) user.finding = s.finding;
-      if (s.section) user.section = s.section;
-      return user;
-    }))];
-    io.to(data.room).emit('roomUsers', userList);
-  })
-  socket.on('menu', (data) => {
+  socket.on("leave", (data) => {
+    console.log(`user ${data.username} left room ${data.room}`);
+    socket.leave(data.room);
+    io.to(data.room).emit("updateUsers");
+  });
+  socket.on("updateUsers", (data) => {
+    var userList = [
+      ...new Set(
+        utils.getSockets(io, data.room).map((s) => {
+          var user = {};
+          user.username = s.username;
+          user.color = s.color;
+          user.menu = s.menu;
+          if (s.finding) user.finding = s.finding;
+          if (s.section) user.section = s.section;
+          return user;
+        })
+      ),
+    ];
+    io.to(data.room).emit("roomUsers", userList);
+  });
+  socket.on("menu", (data) => {
     socket.menu = data.menu;
-    (data.finding)? socket.finding = data.finding: delete socket.finding;
-    (data.section)? socket.section = data.section: delete socket.section;
-    io.to(data.room).emit('updateUsers');
-  })
-  socket.on('disconnect', () => {
-    socket.broadcast.emit('updateUsers')
-  })
+    data.finding ? (socket.finding = data.finding) : delete socket.finding;
+    data.section ? (socket.section = data.section) : delete socket.section;
+    io.to(data.room).emit("updateUsers");
+  });
+  socket.on("disconnect", () => {
+    socket.broadcast.emit("updateUsers");
+  });
 });
 
 // CORS
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header("Access-Control-Allow-Methods", "GET,POST,DELETE,PUT,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header('Access-Control-Expose-Headers', 'Content-Disposition')
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Expose-Headers", "Content-Disposition");
   // res.header('Access-Control-Allow-Credentials', 'true')
   next();
 });
 
-app.use(bodyParser.json({limit: '100mb'}));
-app.use(bodyParser.urlencoded({
-  limit: '100mb',
-  extended: true // do not need to take care about images, videos -> false: only strings
-}));
+app.use(bodyParser.json({ limit: "100mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "100mb",
+    extended: true, // do not need to take care about images, videos -> false: only strings
+  })
+);
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 // Routes import
-require('./routes/user')(app);
-require('./routes/audit')(app, io);
-require('./routes/client')(app);
-require('./routes/company')(app);
-require('./routes/vulnerability')(app);
-require('./routes/template')(app);
-require('./routes/vulnerability')(app);
-require('./routes/data')(app);
-require('./routes/image')(app);
-require('./routes/settings')(app);
+require("./routes/user")(app);
+require("./routes/audit")(app, io);
+require("./routes/client")(app);
+require("./routes/company")(app);
+require("./routes/vulnerability")(app);
+require("./routes/template")(app);
+require("./routes/vulnerability")(app);
+require("./routes/data")(app);
+require("./routes/image")(app);
+require("./routes/settings")(app);
+require("./routes/comments")(app);
 
 const { cronJobs } = require('./lib/cron');
 cronJobs();

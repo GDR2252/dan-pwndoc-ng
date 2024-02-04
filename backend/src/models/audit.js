@@ -13,12 +13,17 @@ var customField = {
   text: Schema.Types.Mixed,
 };
 
+var Comment = {
+  user : String, comment : String
+}
+
 var Finding = {
   id: Schema.Types.ObjectId,
   identifier: Number, //incremental ID to be shown in the report
   title: String,
   vulnType: String,
   description: [String],
+  descriptionComments: [Comment],
   observation: [String],
   remediation: [String],
   remediationComplexity: { type: Number, enum: [1, 2, 3] },
