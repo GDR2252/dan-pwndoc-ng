@@ -105,6 +105,8 @@
               outlined
               :readonly="frontEndAuditState !== AUDIT_VIEW_STATE.EDIT"
             />
+                <!-- <button @click="checkDesc">check Dsc</button> -->
+
             <q-field
               class="basic-editor"
               borderless
@@ -112,9 +114,13 @@
               stack-label
             >
               <template v-slot="control">
-                <basic-editor ref="desc"
+                <!-- <basic-editor ref="desc"
                 @editorchange="finding.description=$refs.desc._data.html"
-                idUnique="basiceditor_description"    :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"/>
+                idUnique="basiceditor_description"    :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"/> -->
+                <tinymce
+                v-model="finding.description[0]"
+
+                ></tinymce>
                 <!-- <basic-editor-array
                 ref="desc"
                 @editorchange="finding.description=$refs.desc._data.dataString"
@@ -137,10 +143,14 @@
                   idUnique="basiceditor_observation"
                   :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"
                 /> -->
-                <basic-editor ref="obs"
+                <!-- <basic-editor ref="obs"
                 @editorchange="finding.observation=$refs.obs._data.html"
                 idUnique="basiceditor_observation"    :editable="frontEndAuditState === AUDIT_VIEW_STATE.EDIT"/>
-              
+               -->
+                 <tinymce
+                v-model="finding.observation[0]"
+
+                ></tinymce>
               </template>
             </q-field>
             <q-field

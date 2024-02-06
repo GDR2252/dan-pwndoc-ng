@@ -6,7 +6,7 @@ import CvssCalculator from "components/cvsscalculator";
 import TextareaArray from "components/textarea-array";
 import CustomFields from "components/custom-fields";
 import BasicEditorArray from "components/basiceditor-array";
-
+import Tinymce from "components/tinymce";
 import AuditService from "@/services/audit";
 import DataService from "@/services/data";
 import VulnService from "@/services/vulnerability";
@@ -32,7 +32,7 @@ export default {
       needSave: false,
       AUDIT_VIEW_STATE: Utils.AUDIT_VIEW_STATE,
       statuses: ["Fixed", "Open", "Partially Fixed"],
-          };
+    };
   },
 
   components: {
@@ -42,6 +42,7 @@ export default {
     TextareaArray,
     CustomFields,
     BasicEditorArray,
+    Tinymce,
   },
 
   mounted: function () {
@@ -102,7 +103,9 @@ export default {
   },
 
   methods: {
-   
+    checkDesc() {
+      console.log(this.finding.description);
+},
     _listener: function (e) {
       if (
         (window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) &&
